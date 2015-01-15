@@ -6,7 +6,8 @@ OBJECTS = \
 	sessions.o \
 	libs/varint.o \
 	packets/packet.o \
-	packets/generic_packet.o
+	packets/generic_packet.o \
+	packets/connect_packet.o
 
 picket: $(OBJECTS)
 	gcc $(OBJECTS) -o picket -lpcap

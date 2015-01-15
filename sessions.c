@@ -49,7 +49,7 @@ int session_remove_by_addr(struct in_addr address, short port) {
 	int i;
 	
 	for (i = 0; i < session_slots; i++) {
-		if (sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
+		if (sessions[i] != NULL && sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
 			free(sessions[i]);
 			sessions[i] = NULL;
 			return 0;
@@ -67,7 +67,7 @@ int session_remove_by_name(char* name) {
 	int i;
 	
 	for (i = 0; i < session_slots; i++) {
-		if (strcmp(sessions[i]->name, name) == 0) {
+		if (sessions[i] != NULL && strcmp(sessions[i]->name, name) == 0) {
 			free(sessions[i]);
 			sessions[i] = NULL;
 			return 0;
@@ -86,7 +86,7 @@ struct session* session_get_by_addr(struct in_addr address, short port) {
 	int i;
 	
 	for (i = 0; i < session_slots; i++) {
-		if (sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
+		if (sessions[i] != NULL && sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
 			return sessions[i];
 		}
 	}
@@ -102,7 +102,7 @@ struct session* session_get_by_name(char* name) {
 	int i;
 	
 	for (i = 0; i < session_slots; i++) {
-		if (strcmp(sessions[i]->name, name) == 0) {
+		if (sessions[i] != NULL && strcmp(sessions[i]->name, name) == 0) {
 			return sessions[i];
 		}
 	}

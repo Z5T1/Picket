@@ -3,11 +3,16 @@
 #include <stdint.h>
 #include <pcap.h>
 
+#include "../sessions.h"
+
+/** @file */
+
 /** Type for a basic packet */
 struct generic_packet {
-	uint64_t length;	// Packet Length
-	uint64_t id;		// Packet ID
-	const char* data;	// Pointer to the data for the packet
+	struct session* ses;	// The session issuing this packet
+	uint64_t length;		// Packet Length
+	uint64_t id;			// Packet ID
+	const char* data;		// Pointer to the data for the packet
 };
 
 /** Creates a generic packet from a raw payload
