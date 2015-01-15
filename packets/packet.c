@@ -33,48 +33,18 @@ void process_packet(u_char* payload, int length, struct in_addr address, short p
 	
 	create_generic_packet(&packet, payload);
 	
-	/*if (1) {
-		int i;
-		
-		printf("Length: 0x%X - 0x%X\nID: 0x%X\nPayload: ", length, packet.length, packet.id);
-		for (i = 0; i < length; i++) {
-			printf("%X ", payload[i]);
-		}
-		printf("\nText: ");
-		for (i = 0; i < length; i++) {
-			printf("%c", payload[i]);
-		}
-		printf("\n\n");
-	}*/
-	
 	ses = session_get_by_addr(address, port);
 	
 	if (ses == NULL) {
-		if (packet.id == 2) {
-			int i;
-						
+		if (packet.id == PACKET_CONNECT) {
 			process_connect_packet_from_payload(payload, address, port);
-			
-			/*if (port == 25565)
-				printf("CLIENTBOUND\n");
-			else
-				printf("SERVERBOUND\n");
-			printf("Length: 0x%X - 0x%X\nID: 0x%X\nPayload: ", length, packet.length, packet.id);
-			for (i = 0; i < length; i++) {
-				printf("%X ", payload[i]);
-			}
-			printf("\nText: ");
-			for (i = 0; i < length; i++) {
-				printf("%c", payload[i]);
-			}
-			printf("\n\n");*/
 		}
 	}
 	else {
-		
+		switch(packet.id) {
+		case PACKET_CHAT:
+			break;
+		}
 	}
 	
-	switch(packet.id) {
-	
-	}
 }

@@ -3,6 +3,8 @@
 
 #include "sessions.h"
 
+static int session_slots;
+
 /** Initializes the sessions list. This must be called before any other
  * session related functions
  * @param slots		The maximum number of sessions

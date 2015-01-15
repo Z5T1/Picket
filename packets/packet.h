@@ -6,7 +6,10 @@
 
 #include "libs/varint.h"
 
+/** @file */
+
 /* Packet IDs */
+#define PACKET_CONNECT 2
 #define PACKET_CHAT 1
 
 /** Gets the packet ID for a packet

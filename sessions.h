@@ -6,12 +6,11 @@
 struct session {
 	struct in_addr address;
 	short port;
-	char name[40];
+	char name[17];
 };
 
 /** A list storing all the currently established sessions */
 struct session** sessions;
-int session_slots;
 
 /** Initializes the sessions list. This must be called before any other
  * session related functions

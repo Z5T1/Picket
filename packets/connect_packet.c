@@ -1,4 +1,11 @@
+#include <string.h>
+
+#include "../picket.h"
+
 #include "connect_packet.h"
+
+static void (*handlers[PICKET_MAX_HANDLERS])(PlayerConnectEvent);
+static int handler_count = 0;
 
 /** Creates a connect packet from a raw payload
  * @param packet	The packet to fill out
@@ -43,11 +50,20 @@ void create_connect_packet(struct connect_packet* packet, u_char* payload) {
  * @param port		The port of the sender
  */
 void process_connect_packet(struct connect_packet* packet, struct in_addr address, short port) {
+	PlayerConnectEvent evt;
+	
 	printf("%s (UUID %s) has connected\n", packet->name, packet->uuid);
 	session_put(address, port, packet->name);
+	
+	strcpy(evt.player.name, packet->name);
+	strcpy(evt.uuid, packet->uuid);
+	evt.player.ip = address;
+	
+	connect_packet_call_handlers(evt);
 }
 
-/** Processes a generic packet as though it were a connect packet
+/** Processes a generic packet as though it were a connect packet.
+ * A convienience method for create_connect_packet(); process_connect_packet();
  * @param payload	The payload to process (as created by got_packet())
  * @param in_addr	The address of the sender
  * @param port		The port of the sender
@@ -57,4 +73,22 @@ void process_connect_packet_from_payload(u_char* payload, struct in_addr address
 	
 	create_connect_packet(&packet, payload);
 	process_connect_packet(&packet, address, port);
+}
+
+/** Adds a function to the list of handler functions
+ * @param handler	The handler to add
+ */
+void connect_packet_add_handler(void* handler) {
+	handlers[handler_count] = handler;
+	handler_count++;
+}
+
+/** Calls all handlers for PlayerConnectEvent 
+ * @param evt		The event to pass to the handlers
+ */
+void connect_packet_call_handlers(PlayerConnectEvent evt) {
+	int i;
+	for (i = 0; i < handler_count; i++) {
+		(*handlers[i])(evt);
+	}
 }
