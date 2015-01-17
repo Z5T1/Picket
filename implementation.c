@@ -25,7 +25,7 @@ int load_plugin(char* plugin) {
 	char* plugin_path;
 	
 	// Function Pointers
-	void (*setImp)(PicketImplementation imp);
+	void (*setImp)(PicketImplementation* imp);
 	void (*onLoad)();
 	
 	plugin_path = malloc(strlen(plugin) + 12);
@@ -44,7 +44,7 @@ int load_plugin(char* plugin) {
 		fprintf(stderr, "Error setting plugin implementation %s: %s\n\tDid you link against libpicket?\n", plugin, dlerror());
 		return -1;
 	}
-	setImp(imp);
+	setImp(&imp);
 	
 	// Call the Plugin's onLoad() function
 	onLoad = dlsym(handler, "onLoad");
@@ -52,7 +52,13 @@ int load_plugin(char* plugin) {
 		fprintf(stderr, "Error starting plugin %s: %s\n\tCould not find function onLoad\n", plugin, dlerror());
 		return -1;
 	}
+	printf("Loading %s\n", plugin);
 	onLoad();
+	
+	// Add Plugin handler to the list
+	plugins[plugin_count].handler = handler;
+	strcpy(plugins[plugin_count].name, plugin);
+	plugin_count++;
 	
 	// Cleanup
 	free(plugin_path);

@@ -8,7 +8,13 @@
 /** The Main Picket Implementation */
 PicketImplementation imp;
 
-void* plugins[PICKET_MAX_HANDLERS];
+/** Represents a plugin */
+struct plugin {
+	void* handler;
+	char name[65];
+};
+
+struct plugin plugins[PICKET_MAX_HANDLERS];
 int plugin_count;
 
 /** Initalizes the implementation */

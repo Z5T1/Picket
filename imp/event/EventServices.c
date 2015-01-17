@@ -11,9 +11,7 @@
 void subscribeToPicketEvent(PicketEvent event, void* function) {
 	switch(event) {
 	case PLAYER_CONNECT_EVENT:
-		printf("Subscribing to connectevt\n");
 		connect_packet_add_handler(function);
-		printf("\tDone\n");
 		break;
 	case PLAYER_CHAT_EVENT:
 		chat_packet_add_handler(function);

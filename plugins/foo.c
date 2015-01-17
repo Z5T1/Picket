@@ -3,8 +3,8 @@
 #include <event/EventServices.h>
 #include <event/PlayerConnectEvent.h>
 
-void onConnect(PlayerConnectEvent evt) {
-	printf("Foo: %s has connected\n", evt.player.name);
+void onConnect(PlayerConnectEvent* evt) {
+	printf("Foo: %s has connected\n", evt->player.name);
 }
 
 void onLoad() {

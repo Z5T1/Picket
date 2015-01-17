@@ -23,9 +23,12 @@ int main(int argc, char** argv) {
 	int slots = 20;
 	char port_filter[20] = "port 25565";
 	char* dev = "lo";
+	char* plugin_list = "";
+	char* screen = "picket";
 	
 	// Misc
 	int i;
+	char* current_plugin;
 	
 	/***** Parse Arguments *****/
 	for (i = 0; i < argc; i++) {
@@ -33,10 +36,22 @@ int main(int argc, char** argv) {
 		if (strcmp(argv[i], "--help") == 0) {
 			fprintf(stderr,
 					"--help             Display this message\n"
+					"-e <plugins>       Specifies a comma separated list of plugins to load\n"
 					"-i <interface>     Specifies the device to listen on (default lo)\n"
 					"-p <port>          Specifies the port to listen on\n"
 					"-x <players>       Specifies the maximum number of players that can connect\n");
 			return 0;
+		}
+		// Plugins
+		if (strcmp(argv[i], "-e") == 0 || strcmp(argv[i], "--plugins") == 0) {
+			i++;
+			if (i < argc) {
+				plugin_list = argv[i];
+			}
+			else {
+				fprintf(stderr, "Error:\t-e - no plugins specified\n");
+				return 2;
+			}
 		}
 		// Interface
 		if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--interface") == 0) {
@@ -104,7 +119,13 @@ int main(int argc, char** argv) {
 	imp_init();
 	
 	/***** Load Plugins *****/
-	load_plugin("foo");
+	current_plugin = strtok(plugin_list, ",");
+	
+	while (current_plugin != NULL) {
+		load_plugin(current_plugin);
+		
+		current_plugin = strtok(NULL, ",");
+	}
 	
 	/***** Main Loop *****/
 	pcap_loop(handle, -1, got_packet, NULL);
