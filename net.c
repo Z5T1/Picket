@@ -37,7 +37,7 @@ void got_packet(u_char* args, const struct pcap_pkthdr* header, const u_char* pa
 	data = malloc(length);
 	memcpy(data, payload, length);
 	
-	process_packet(data, length, ip->ip_src, tcp->th_sport);
+	process_packet(data, length, ip->ip_src, ip->ip_dst, tcp->th_sport, tcp->th_dport);
 	
 	free(data);
 

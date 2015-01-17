@@ -6,7 +6,9 @@
 
 /** @file */
 
+/** Called when a player chats or enters a command. If message begins with
+ * a / the player is entering a command. Otherwise, he's chatting. */
 typedef struct {
 	Player player;		/** The player connecting */
-	char uuid[40];		/** The UUID of the player connecting */
-} PlayerConnectEvent;
+	char* message;		/** The message being chatted */
+} PlayerChatEvent;

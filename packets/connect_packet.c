@@ -4,7 +4,7 @@
 
 #include "connect_packet.h"
 
-static void (*handlers[PICKET_MAX_HANDLERS])(PlayerConnectEvent);
+static void (*handlers[PICKET_MAX_HANDLERS])(PlayerConnectEvent*);
 static int handler_count = 0;
 
 /** Creates a connect packet from a raw payload
@@ -59,7 +59,7 @@ void process_connect_packet(struct connect_packet* packet, struct in_addr addres
 	strcpy(evt.uuid, packet->uuid);
 	evt.player.ip = address;
 	
-	connect_packet_call_handlers(evt);
+	connect_packet_call_handlers(&evt);
 }
 
 /** Processes a generic packet as though it were a connect packet.
@@ -86,9 +86,10 @@ void connect_packet_add_handler(void* handler) {
 /** Calls all handlers for PlayerConnectEvent 
  * @param evt		The event to pass to the handlers
  */
-void connect_packet_call_handlers(PlayerConnectEvent evt) {
+void connect_packet_call_handlers(PlayerConnectEvent* evt) {
 	int i;
 	for (i = 0; i < handler_count; i++) {
-		(*handlers[i])(evt);
+		if (handlers[i] != NULL)
+			(*handlers[i])(evt);
 	}
 }

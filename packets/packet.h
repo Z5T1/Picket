@@ -27,7 +27,9 @@ short get_packet_length(const u_char* packet);
 /** Processes a packet 
  * @param payload	The payload for the packet
  * @param length	The length of the payload
- * @param in_addr	The address of the sender
- * @param port		The port of the sender
+ * @param s_addr	The address of the sender
+ * @param d_addr	The address of the receiver
+ * @param s_port	The port of the sender
+ * @param d_port	The port of the receiver
  */
-void process_packet(u_char* payload, int length, struct in_addr address, short port);
+void process_packet(u_char* payload, int length, struct in_addr s_address, struct in_addr d_address, short s_port, short d_port);

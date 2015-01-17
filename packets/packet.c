@@ -1,6 +1,7 @@
 #include "packet.h"
 #include "generic_packet.h"
 #include "connect_packet.h"
+#include "chat_packet.h"
 
 /** Gets the packet ID for a packet
  * @param packet The packet to get the ID for
@@ -21,10 +22,12 @@ short get_packet_length(const u_char* packet) {
 /** Processes a packet 
  * @param payload	The payload for the packet
  * @param length	The length of the payload
- * @param in_addr	The address of the sender
- * @param port		The port of the sender
+ * @param s_addr	The address of the sender
+ * @param d_addr	The address of the receiver
+ * @param s_port	The port of the sender
+ * @param d_port	The port of the receiver
  */
-void process_packet(u_char* payload, int length, struct in_addr address, short port) {
+void process_packet(u_char* payload, int length, struct in_addr s_address, struct in_addr d_address, short s_port, short d_port) {
 	struct generic_packet packet;
 	struct session* ses;
 	
@@ -33,16 +36,17 @@ void process_packet(u_char* payload, int length, struct in_addr address, short p
 	
 	create_generic_packet(&packet, payload);
 	
-	ses = session_get_by_addr(address, port);
+	ses = session_get_by_addr(s_address, s_port);
 	
 	if (ses == NULL) {
 		if (packet.id == PACKET_CONNECT) {
-			process_connect_packet_from_payload(payload, address, port);
+			process_connect_packet_from_payload(payload, d_address, d_port);
 		}
 	}
 	else {
 		switch(packet.id) {
 		case PACKET_CHAT:
+			process_chat_packet_from_payload(payload, ses);
 			break;
 		}
 	}

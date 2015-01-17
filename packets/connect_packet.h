@@ -47,4 +47,4 @@ void connect_packet_add_handler(void* handler);
 /** Calls all handlers for PlayerConnectEvent 
  * @param evt		The event to pass to the handlers
  */
-void connect_packet_call_handlers(PlayerConnectEvent evt);
+void connect_packet_call_handlers(PlayerConnectEvent* evt);

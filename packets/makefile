@@ -8,3 +8,6 @@ generic_packet.o: generic_packet.c generic_packet.h
 	
 connect_packet.o: connect_packet.c connect_packet.h
 	gcc connect_packet.c -c
+	
+chat_packet.o: chat_packet.c chat_packet.h
+	gcc chat_packet.c -c
