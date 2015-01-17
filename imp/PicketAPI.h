@@ -9,8 +9,12 @@
  * single Picket plugin in existence.
  */
 typedef struct {
-	void* subscribeToPicketEvent; // From EventServices.h
-} PicketImplementation;
+	void (*connect_packet_add_handler)(void *function);
+	void (*chat_packet_add_handler)(void *function);
+} PicketInterface;
+
+/** The main picket interface */
+PicketInterface picketInterface;
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,7 +23,7 @@ extern "C" {
 /** Sets the main picket interface
  * @param interface The PicketInterface to use as the main interface
  */
-void setPicketImplementation(PicketImplementation* imp);
+void setPicketInterface(PicketInterface* interface);
 
 #ifdef __cplusplus
 }

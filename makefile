@@ -1,6 +1,7 @@
 CC = gcc
 OBJECTS = \
 	picket.o \
+	implementation.o \
 	net.o \
 	handlers.o \
 	sessions.o \
@@ -9,13 +10,13 @@ OBJECTS = \
 	packets/generic_packet.o \
 	packets/connect_packet.o \
 	packets/chat_packet.o \
-	api/event/EventServices.o
+	imp/event/EventServices.o
 
-picket: main.o
-	gcc main.o -o picket -lpcap
-
-main.o: $(OBJECTS)
-	ld -r $(OBJECTS) -o main.o
+picket: $(OBJECTS)
+	gcc $(OBJECTS) -o picket -lpcap -ldl
+	
+implementation.o: implementation.c implementation.h
+	gcc -c implementation.c -o implementation.o
 	
 net.o: net.c net.h
 	gcc -c net.c -o net.o

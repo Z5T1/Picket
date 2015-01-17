@@ -8,10 +8,6 @@ typedef enum {
 	PLAYER_CHAT_EVENT
 } PicketEvent;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /** Subscribes to a certain event, making it so a function is called
  * every time a given event is fired
  * @param event The event to listen for
@@ -19,6 +15,3 @@ extern "C" {
  */
 void subscribeToPicketEvent(PicketEvent event, void* function);
 
-#ifdef __cplusplus
-}
-#endif

@@ -1,7 +1,7 @@
-#include <PicketAPI.h>
+#include <packets/connect_packet.h>
+#include <packets/chat_packet.h>
 
-#include <event/EventServices.h>
-
+#include "EventServices.h"
 
 /** Subscribes to a certain event, making it so a function is called
  * every time a given event is fired
@@ -11,10 +11,12 @@
 void subscribeToPicketEvent(PicketEvent event, void* function) {
 	switch(event) {
 	case PLAYER_CONNECT_EVENT:
-		picketInterface.connect_packet_add_handler(function);
+		printf("Subscribing to connectevt\n");
+		connect_packet_add_handler(function);
+		printf("\tDone\n");
 		break;
 	case PLAYER_CHAT_EVENT:
-		picketInterface.chat_packet_add_handler(function);
+		chat_packet_add_handler(function);
 		break;
 	}
 }

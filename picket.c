@@ -5,6 +5,7 @@
 #include "picket.h"
 #include "sessions.h"
 #include "net.h"
+#include "api/PicketAPI.h"
 
 int main(int argc, char** argv) {
 	
@@ -20,7 +21,7 @@ int main(int argc, char** argv) {
 	
 	// Option Variables
 	int slots = 20;
-	int port = 25565;
+	char port_filter[20] = "port 25565";
 	char* dev = "lo";
 	
 	// Misc
@@ -52,7 +53,7 @@ int main(int argc, char** argv) {
 		if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--port") == 0) {
 			i++;
 			if (i < argc) {
-				port = atoi(argv[i]);
+				sprintf(port_filter, "port %s", argv[i]);
 			}
 			else {
 				fprintf(stderr, "Error:\t-p - no port specified\n");
@@ -85,7 +86,7 @@ int main(int argc, char** argv) {
 		return (1);
 	}
 	// Compile Filter
-	if (pcap_compile(handle, &filter, "port 25565", 0, netmask) < 0) {
+	if (pcap_compile(handle, &filter, port_filter, 0, netmask) < 0) {
 		fprintf(stderr, "libpcap error processing filter: %s\n", pcap_geterr(handle));
 		return (1);
 	}
@@ -95,13 +96,20 @@ int main(int argc, char** argv) {
 		return (1);
 	}
 	
+	/***** Initialization *****/
 	// Init Sessions List
 	session_init(slots);
 	
-	// Main Loop
+	// Init Implementation
+	imp_init();
+	
+	/***** Load Plugins *****/
+	load_plugin("foo");
+	
+	/***** Main Loop *****/
 	pcap_loop(handle, -1, got_packet, NULL);
 	
-	// Cleanup
+	/***** Cleanup *****/
 	pcap_close(handle);
 	session_delete();
 	
