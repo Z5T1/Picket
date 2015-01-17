@@ -17,7 +17,7 @@ extern "C" {
  * @param event The event to listen for
  * @param function The function to call
  */
-void (*subscribeToPicketEvent)(PicketEvent event, void* function);
+void subscribeToPicketEvent(PicketEvent event, void* function);
 
 #ifdef __cplusplus
 }
