@@ -1,5 +1,5 @@
 foo.so: foo.o
-	gcc -shared -o foo.so foo.o ../api/PicketAPI.o
+	gcc -shared -o foo.so foo.o .root/api/PicketAPI.o
 
 foo.o: foo.c
-	gcc -I../api -fPIC -c foo.c -o foo.o
+	gcc -I.root/api -fPIC -c foo.c -o foo.o

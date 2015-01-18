@@ -6,4 +6,4 @@ OBJECTS = \
 #	ar -cvr libpicket.a $(OBJECTS)
 
 PicketAPI.o: PicketAPI.c PicketAPI.h
-	gcc -fPIC -I../ -c PicketAPI.c -o PicketAPI.o
+	gcc -fPIC -I.root/ -c PicketAPI.c -o PicketAPI.o

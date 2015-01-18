@@ -7,7 +7,7 @@ all:
 	make $(OBJECTS)
 
 Console.o: Console.c
-	gcc -I../ -c Console.c -o Console.o
+	gcc -I.root/ -c Console.c -o Console.o
 
 event/EventServices.o: event/EventServices.c
-	gcc -I../ -c event/EventServices.c -o event/EventServices.o
+	gcc -I.root/ -c event/EventServices.c -o event/EventServices.o
