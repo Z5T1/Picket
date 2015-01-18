@@ -102,6 +102,8 @@ int main(int argc, char** argv) {
 		}
 	}
 	
+	printf("Starting Picket v. "PICKET_VERSION_STRING"\n");
+	
 	/***** Device Initialiazation *****/
 	// Device Lookup
 	if (pcap_lookupnet(dev, &netaddr, &netmask, errbuf) < 0) {
@@ -133,6 +135,8 @@ int main(int argc, char** argv) {
 	imp_init();
 	
 	/***** Load Plugins *****/
+	printf("Loading Plugins\n");
+	
 	current_plugin = strtok(plugin_list, ",");
 	
 	while (current_plugin != NULL) {
@@ -142,6 +146,7 @@ int main(int argc, char** argv) {
 	}
 	
 	/***** Main Loop *****/
+	printf("Done\n");
 	pcap_loop(handle, -1, got_packet, NULL);
 	
 	/***** Cleanup *****/

@@ -2,6 +2,8 @@
 
 case "$1" in
 "start")
+	echo "Starting the Minecraft server and Picket"
+
 	source picket.config
 
 	screen -d -m -S $screen
@@ -15,6 +17,9 @@ case "$1" in
 		--port $port
 	;;
 "start-picket")
+	echo "Starting Picket"
+	echo "All players must rejoin the Minecraft server now"
+
 	source picket.config
 
 	./picket \
@@ -24,6 +29,8 @@ case "$1" in
 		--port $port
 	;;
 "stop")
+	echo "Stopping the Minecraft server"
+
 	source picket.config
 
 	screen -p 0 -S $screen -X stuff "stop"$(printf \\r)
@@ -34,10 +41,14 @@ case "$1" in
 		echo "Picket must be setup as root"
 		exit
 	fi
+	echo "Setting up Picket..."
+	
 	setcap cap_net_raw,cap_net_admin=eip ./picket
+	
+	echo "Done"
 	;;
 *)
-	echo "Usage: $0 <start|stop|setup>"
+	echo "Usage: $0 <start|start-picket|stop|setup>"
 	;;
 esac
 
