@@ -1,0 +1,62 @@
+[14:31:55] [Server thread/INFO]: Starting minecraft server version 1.7.9
+[14:31:55] [Server thread/WARN]: To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+[14:31:55] [Server thread/INFO]: Loading properties
+[14:31:55] [Server thread/WARN]: server.properties does not exist
+[14:31:55] [Server thread/INFO]: Generating new properties file
+[14:31:55] [Server thread/INFO]: Default game type: SURVIVAL
+[14:31:55] [Server thread/INFO]: Generating keypair
+[14:31:56] [Server thread/INFO]: Starting Minecraft server on *:25565
+[14:31:56] [Server thread/WARN]: Failed to load user banlist: 
+java.io.FileNotFoundException: banned-players.json (No such file or directory)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_71]
+	at java.io.FileInputStream.<init>(FileInputStream.java:146) ~[?:1.7.0_71]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[minecraft_server.1.7.9.jar:?]
+	at ol.g(SourceFile:124) ~[minecraft_server.1.7.9.jar:?]
+	at lr.y(SourceFile:99) [minecraft_server.1.7.9.jar:?]
+	at lr.<init>(SourceFile:25) [minecraft_server.1.7.9.jar:?]
+	at ls.e(SourceFile:160) [minecraft_server.1.7.9.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [minecraft_server.1.7.9.jar:?]
+	at li.run(SourceFile:628) [minecraft_server.1.7.9.jar:?]
+[14:31:56] [Server thread/WARN]: Failed to load ip banlist: 
+java.io.FileNotFoundException: banned-ips.json (No such file or directory)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_71]
+	at java.io.FileInputStream.<init>(FileInputStream.java:146) ~[?:1.7.0_71]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[minecraft_server.1.7.9.jar:?]
+	at ol.g(SourceFile:124) ~[minecraft_server.1.7.9.jar:?]
+	at lr.x(SourceFile:91) [minecraft_server.1.7.9.jar:?]
+	at lr.<init>(SourceFile:27) [minecraft_server.1.7.9.jar:?]
+	at ls.e(SourceFile:160) [minecraft_server.1.7.9.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [minecraft_server.1.7.9.jar:?]
+	at li.run(SourceFile:628) [minecraft_server.1.7.9.jar:?]
+[14:31:56] [Server thread/WARN]: Failed to load operators list: 
+java.io.FileNotFoundException: ops.json (No such file or directory)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_71]
+	at java.io.FileInputStream.<init>(FileInputStream.java:146) ~[?:1.7.0_71]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[minecraft_server.1.7.9.jar:?]
+	at ol.g(SourceFile:124) ~[minecraft_server.1.7.9.jar:?]
+	at lr.z(SourceFile:107) [minecraft_server.1.7.9.jar:?]
+	at lr.<init>(SourceFile:29) [minecraft_server.1.7.9.jar:?]
+	at ls.e(SourceFile:160) [minecraft_server.1.7.9.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [minecraft_server.1.7.9.jar:?]
+	at li.run(SourceFile:628) [minecraft_server.1.7.9.jar:?]
+[14:31:56] [Server thread/WARN]: Failed to load white-list: 
+java.io.FileNotFoundException: whitelist.json (No such file or directory)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_71]
+	at java.io.FileInputStream.<init>(FileInputStream.java:146) ~[?:1.7.0_71]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[minecraft_server.1.7.9.jar:?]
+	at ol.g(SourceFile:124) ~[minecraft_server.1.7.9.jar:?]
+	at lr.B(SourceFile:123) [minecraft_server.1.7.9.jar:?]
+	at lr.<init>(SourceFile:30) [minecraft_server.1.7.9.jar:?]
+	at ls.e(SourceFile:160) [minecraft_server.1.7.9.jar:?]
+	at net.minecraft.server.MinecraftServer.run(SourceFile:339) [minecraft_server.1.7.9.jar:?]
+	at li.run(SourceFile:628) [minecraft_server.1.7.9.jar:?]
+[14:31:56] [Server thread/INFO]: Preparing level "world"
+[14:31:56] [Server thread/INFO]: Preparing start region for level 0
+[14:31:57] [Server thread/INFO]: Preparing spawn area: 9%
+[14:31:58] [Server thread/INFO]: Preparing spawn area: 21%
+[14:31:59] [Server thread/INFO]: Preparing spawn area: 36%
+[14:32:00] [Server thread/INFO]: Preparing spawn area: 51%
+[14:32:01] [Server thread/INFO]: Preparing spawn area: 68%
+[14:32:02] [Server thread/INFO]: Preparing spawn area: 85%
+[14:32:03] [Server thread/INFO]: Done (7.224s)! For help, type "help" or "?"
+[14:32:46] [Server Shutdown Thread/INFO]: Stopping server

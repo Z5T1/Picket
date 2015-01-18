@@ -9,8 +9,13 @@
  * single Picket plugin in existence.
  */
 typedef struct {
-	void* subscribeToPicketEvent; // From EventServices.h
+	void* subscribeToPicketEvent;	// From event/EventServices.h
+	void* runCommand;				// From Console.h
+	char* picketScreen;				// From Console.h
 } PicketImplementation;
+
+/** The name of the screen the minecraft server is running in */
+char* picketScreen;
 
 #ifdef __cplusplus
 extern "C" {

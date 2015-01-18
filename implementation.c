@@ -5,6 +5,7 @@
 
 #include "implementation.h"
 
+#include "imp/Console.h"
 #include "imp/event/EventServices.h"
 
 /** Initalizes the implementation */
@@ -13,6 +14,8 @@ void imp_init() {
 	memset(plugins, 0, sizeof(void*) * PICKET_MAX_HANDLERS);
 	
 	imp.subscribeToPicketEvent = subscribeToPicketEvent;
+	imp.runCommand = runCommand;
+	imp.picketScreen = picketScreen;
 }
 
 /** Loads a plugin

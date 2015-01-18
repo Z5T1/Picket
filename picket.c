@@ -6,6 +6,7 @@
 #include "sessions.h"
 #include "net.h"
 #include "api/PicketAPI.h"
+#include "imp/Console.h"
 
 int main(int argc, char** argv) {
 	
@@ -24,19 +25,21 @@ int main(int argc, char** argv) {
 	char port_filter[20] = "port 25565";
 	char* dev = "lo";
 	char* plugin_list = "";
-	char* screen = "picket";
 	
 	// Misc
 	int i;
 	char* current_plugin;
 	
 	/***** Parse Arguments *****/
+	// Default Screen
+	picketScreen = "picket";
 	for (i = 0; i < argc; i++) {
 		// Help
 		if (strcmp(argv[i], "--help") == 0) {
 			fprintf(stderr,
 					"--help             Display this message\n"
 					"-e <plugins>       Specifies a comma separated list of plugins to load\n"
+					"-s <screen			Specifies the screen the minecraft server is running in\n"
 					"-i <interface>     Specifies the device to listen on (default lo)\n"
 					"-p <port>          Specifies the port to listen on\n"
 					"-x <players>       Specifies the maximum number of players that can connect\n");
@@ -50,6 +53,17 @@ int main(int argc, char** argv) {
 			}
 			else {
 				fprintf(stderr, "Error:\t-e - no plugins specified\n");
+				return 2;
+			}
+		}
+		// Screen
+		if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--screen") == 0) {
+			i++;
+			if (i < argc) {
+				picketScreen = argv[i];
+			}
+			else {
+				fprintf(stderr, "Error:\t-s - no screen specified\n");
 				return 2;
 			}
 		}

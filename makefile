@@ -10,6 +10,7 @@ OBJECTS = \
 	packets/generic_packet.o \
 	packets/connect_packet.o \
 	packets/chat_packet.o \
+	imp/Console.o \
 	imp/event/EventServices.o
 
 picket: $(OBJECTS)
