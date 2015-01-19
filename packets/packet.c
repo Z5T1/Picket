@@ -30,6 +30,7 @@ short get_packet_length(const u_char* packet) {
 void process_packet(u_char* payload, int length, struct in_addr s_address, struct in_addr d_address, short s_port, short d_port) {
 	struct generic_packet packet;
 	struct session* ses;
+	struct session* ses_out;
 	
 	if (length == 0)
 		return;
@@ -37,13 +38,14 @@ void process_packet(u_char* payload, int length, struct in_addr s_address, struc
 	create_generic_packet(&packet, payload);
 	
 	ses = session_get_by_addr(s_address, s_port);
+	ses_out = session_get_by_addr(d_address, d_port);
 	
-	if (ses == NULL) {
+	if (ses == NULL && ses_out == NULL) {
 		if (packet.id == PACKET_CONNECT) {
 			process_connect_packet_from_payload(payload, d_address, d_port);
 		}
 	}
-	else {
+	else if (ses != NULL) {
 		switch(packet.id) {
 		case PACKET_CHAT:
 			process_chat_packet_from_payload(payload, ses);
