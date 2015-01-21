@@ -25,6 +25,8 @@ void onChat(PlayerChatEvent* evt) {
 			sprintf(cmd, "tellraw %s §6§lbar", evt->player.name);
 			runCommand(cmd);
 		}
+		
+		free(message);
 	}
 	
 	
