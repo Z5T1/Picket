@@ -6,6 +6,7 @@ case "$1" in
 
 	source picket.config
 
+	screen -p 0 -S $screen -X quit > /dev/null
 	screen -d -m -S $screen
 
 	screen -p 0 -S $screen -X stuff "$server_command"$(printf \\r)
@@ -33,8 +34,8 @@ case "$1" in
 
 	source picket.config
 
-	screen -p 0 -S $screen -X stuff "stop"$(printf \\r)
-	screen -p 0 -S $screen -X quit
+	screen -p 0 -S $screen -X stuff "stop"$(printf \\r) > /dev/null
+	screen -p 0 -S $screen -X quit > /dev/null
 	;;
 "setup")
 	if [ "$USER" != "root" ]; then
