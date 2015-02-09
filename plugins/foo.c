@@ -4,6 +4,7 @@
 
 #include <event/EventServices.h>
 #include <event/PlayerChatEvent.h>
+#include <event/PlayerCommandEvent.h>
 #include <event/PlayerConnectEvent.h>
 #include <Console.h>
 
@@ -12,28 +13,22 @@ void onConnect(PlayerConnectEvent* evt) {
 }
 
 void onChat(PlayerChatEvent* evt) {
-		
 	printf("foo: %s\n", evt->message);
-	if (evt->message[0] == '/') {
-		char* args;
-		char* message = malloc(strlen(evt->message));
-		
-		strcpy(message, evt->message);
-		args = strtok(message, " ");
-		if (strcmp(message, "/foo") == 0) {
-			char cmd[64];
-			sprintf(cmd, "tellraw %s §6§lbar", evt->player.name);
-			runCommand(cmd);
-		}
-		
-		free(message);
+}
+
+void onCommand(PlayerCommandEvent* evt) {
+	printf("foo: command: %s\n", evt->command);
+	
+	if (strcmp(evt->command, "foo") == 0) {
+		char cmd[64];
+		sprintf(cmd, "tellraw %s §6§lbar", evt->player.name);
+		runCommand(cmd);
 	}
-	
-	
 }
 
 void onLoad() {
 	subscribeToPicketEvent(PLAYER_CONNECT_EVENT, onConnect);
 	subscribeToPicketEvent(PLAYER_CHAT_EVENT, onChat);
+	subscribeToPicketEvent(PLAYER_COMMAND_EVENT, onCommand);
 	printf("foo has been loaded\n");
 }

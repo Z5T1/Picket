@@ -5,7 +5,8 @@
 /** An enumeration of all possible Picket events */
 typedef enum {
 	PLAYER_CONNECT_EVENT,
-	PLAYER_CHAT_EVENT
+	PLAYER_CHAT_EVENT,
+	PLAYER_COMMAND_EVENT
 } PicketEvent;
 
 /** Subscribes to a certain event, making it so a function is called

@@ -5,8 +5,11 @@
 
 #include "chat_packet.h"
 
-static void (*handlers[PICKET_MAX_HANDLERS])(PlayerChatEvent*);
-static int handler_count = 0;
+static void (*chat_handlers[PICKET_MAX_HANDLERS])(PlayerChatEvent*);
+static int chat_handler_count = 0;
+
+static void (*cmd_handlers[PICKET_MAX_HANDLERS])(PlayerCommandEvent*);
+static int cmd_handler_count = 0;
 
 /** Creates a connect packet from a raw payload
  * @param packet	The packet to fill out
@@ -43,16 +46,32 @@ void create_chat_packet(struct chat_packet* packet, u_char* payload) {
  * @param player	The player sending this packet
  */
 void process_chat_packet(struct chat_packet* packet, Player* player) {
-	PlayerChatEvent evt;
-	
 	printf("<%s> %s\n", player->name, packet->message);
 	
-	memcpy(&evt.player, player, sizeof(Player));
-	evt.message = packet->message;
+	// Command
+	if (packet->message[0] == '/') {
+		PlayerCommandEvent evt;
+		
+		memcpy(&evt.player, player, sizeof(Player));
+		evt.command = packet->message+1;
+		evt.args = strtok(evt.command, " ");
+		
+		cmd_packet_call_handlers(&evt);
+		
+		free(packet->message);
+	}
+	// Chat
+	else {
+		PlayerChatEvent evt;
+		
+		memcpy(&evt.player, player, sizeof(Player));
+		evt.message = packet->message;
+		
+		chat_packet_call_handlers(&evt);
+		
+		free(packet->message);
+	}
 	
-	chat_packet_call_handlers(&evt);
-	
-	free(packet->message);
 }
 
 /** Processes a generic packet as though it were a connect packet.
@@ -71,17 +90,37 @@ void process_chat_packet_from_payload(u_char* payload, Player* player) {
  * @param handler	The handler to add
  */
 void chat_packet_add_handler(void* handler) {
-	handlers[handler_count] = handler;
-	handler_count++;
+	chat_handlers[chat_handler_count] = handler;
+	chat_handler_count++;
 }
 
 /** Calls all handlers for PlayerChatEvent 
- * @param evt		The event to pass to the handlers
+ * @param evt		The event to pass to the chat_handlers
  */
 void chat_packet_call_handlers(PlayerChatEvent* evt) {
 	int i;
-	for (i = 0; i < handler_count; i++) {
-		if (handlers[i] != NULL)
-			(*handlers[i])(evt);
+	for (i = 0; i < chat_handler_count; i++) {
+		if (chat_handlers[i] != NULL)
+			(*chat_handlers[i])(evt);
 	}
 }
+
+/** Adds a function to the list of handler functions
+ * @param handler	The handler to add
+ */
+void cmd_packet_add_handler(void* handler) {
+	cmd_handlers[cmd_handler_count] = handler;
+	cmd_handler_count++;
+}
+
+/** Calls all handlers for PlayercmdEvent 
+ * @param evt		The event to pass to the cmd_handlers
+ */
+void cmd_packet_call_handlers(PlayerCommandEvent* evt) {
+	int i;
+	for (i = 0; i < cmd_handler_count; i++) {
+		if (cmd_handlers[i] != NULL)
+			(*cmd_handlers[i])(evt);
+	}
+}
+

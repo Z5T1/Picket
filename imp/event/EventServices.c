@@ -16,5 +16,8 @@ void subscribeToPicketEvent(PicketEvent event, void* function) {
 	case PLAYER_CHAT_EVENT:
 		chat_packet_add_handler(function);
 		break;
+	case PLAYER_COMMAND_EVENT:
+		cmd_packet_add_handler(function);
+		break;
 	}
 }

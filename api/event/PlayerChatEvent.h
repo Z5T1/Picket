@@ -1,14 +1,11 @@
 #pragma once
 
-#include <netinet/ip.h>
-
 #include "../player/Player.h"
 
 /** @file */
 
-/** Called when a player chats or enters a command. If message begins with
- * a / the player is entering a command. Otherwise, he's chatting. */
+/** Called when a player chats */
 typedef struct {
-	Player player;		/** The player connecting */
+	Player player;		/** The player chatting */
 	char* message;		/** The message being chatted */
 } PlayerChatEvent;

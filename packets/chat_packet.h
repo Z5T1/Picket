@@ -6,6 +6,7 @@
 #include "../sessions.h"
 
 #include "api/event/PlayerChatEvent.h"
+#include "api/event/PlayerCommandEvent.h"
 
 /** @file */
 
@@ -45,3 +46,13 @@ void chat_packet_add_handler(void* handler);
  * @param evt		The event to pass to the handlers
  */
 void chat_packet_call_handlers(PlayerChatEvent* evt);
+
+/** Adds a function to the list of handler functions
+ * @param handler	The handler to add
+ */
+void cmd_packet_add_handler(void* handler);
+
+/** Calls all handlers for PlayercmdEvent 
+ * @param evt		The event to pass to the cmd_handlers
+ */
+void cmd_packet_call_handlers(PlayerCommandEvent* evt);
