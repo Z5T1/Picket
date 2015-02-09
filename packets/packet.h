@@ -6,6 +6,9 @@
 
 #include "libs/varint.h"
 
+#include "api/player/Player.h"
+#include "api/player/Connection.h"
+
 /** @file */
 
 /* Packet IDs */

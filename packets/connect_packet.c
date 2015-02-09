@@ -1,7 +1,6 @@
 #include <string.h>
 
-#include "../picket.h"
-
+#include ".root/picket.h"
 #include "connect_packet.h"
 
 static void (*handlers[PICKET_MAX_HANDLERS])(PlayerConnectEvent*);
@@ -53,11 +52,12 @@ void process_connect_packet(struct connect_packet* packet, struct in_addr addres
 	PlayerConnectEvent evt;
 	
 	printf("%s (UUID %s) has connected\n", packet->name, packet->uuid);
-	session_put(address, port, packet->name);
+	session_put(address, port, packet->name, packet->uuid);
 	
 	strcpy(evt.player.name, packet->name);
-	strcpy(evt.uuid, packet->uuid);
-	evt.player.ip = address;
+	strcpy(evt.player.uuid, packet->uuid);
+	evt.player.connection.ip = address;
+	evt.player.connection.port = port;
 	
 	connect_packet_call_handlers(&evt);
 }

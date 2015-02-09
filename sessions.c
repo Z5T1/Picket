@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "sessions.h"
+#include "zdef.h"
 
 static int session_slots;
 
@@ -10,36 +11,30 @@ static int session_slots;
  * @param slots		The maximum number of sessions
  */
 void session_init(int slots) {
-	sessions = malloc(sizeof(struct session*) * slots);
-	memset(sessions, 0, sizeof(struct session*) * slots);
-	session_slots = slots;
+	connected_players = ll_createDynamicCustom(slots);
 }
 
 /** Deletes the session list. Do not make any session calls after calling this */
 void session_delete() {
-	free(sessions);
+	ll_destroy(connected_players);
 }
 
 /** Adds a session the list of sessions
  * @param address	The address for the session
  * @param port		The port for the session
  * @param name		The name for the session (the player name). Must be unique
+ * @param uuid		The UUID of the player
  * @return 0 on success, -1 on error
  */
-int session_put(struct in_addr address, short port, char* name) {
-	int i;
+int session_put(struct in_addr address, short port, char* name, char* uuid) {
+	Player* player = new(Player);
 	
-	for (i = 0; i < session_slots; i++) {
-		if (sessions[i] == NULL) {
-			sessions[i] = malloc(sizeof(struct session));
-			sessions[i]->address = address;
-			sessions[i]->port = port;
-			strcpy(sessions[i]->name, name);
-			return 0;
-		}
-	}
+	player->connection.ip = address;
+	player->connection.port = port;
+	strcpy(player->name, name);
+	strcpy(player->uuid, uuid);
 	
-	return -1;
+	ll_put(connected_players, player);
 }
 
 /** Removes a session from the list of sessions
@@ -50,10 +45,10 @@ int session_put(struct in_addr address, short port, char* name) {
 int session_remove_by_addr(struct in_addr address, short port) {
 	int i;
 	
-	for (i = 0; i < session_slots; i++) {
-		if (sessions[i] != NULL && sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
-			free(sessions[i]);
-			sessions[i] = NULL;
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && player->connection.ip.s_addr == address.s_addr && player->connection.port == port) {
+			ll_remove(connected_players, i);
 			return 0;
 		}
 	}
@@ -68,10 +63,28 @@ int session_remove_by_addr(struct in_addr address, short port) {
 int session_remove_by_name(char* name) {
 	int i;
 	
-	for (i = 0; i < session_slots; i++) {
-		if (sessions[i] != NULL && strcmp(sessions[i]->name, name) == 0) {
-			free(sessions[i]);
-			sessions[i] = NULL;
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && strcmp(player->name, name) == 0) {
+			ll_remove(connected_players, i);
+			return 0;
+		}
+	}
+	
+	return -1;
+}
+
+/** Removes a session from the list of sessions
+ * @param uuid		The uuid of the session to remove
+ * @return 0 on success, -1 on error
+ */
+int session_remove_by_uuid(char* uuid) {
+	int i;
+	
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && strcmp(player->uuid, uuid) == 0) {
+			ll_remove(connected_players, i);
 			return 0;
 		}
 	}
@@ -84,12 +97,13 @@ int session_remove_by_name(char* name) {
  * @param port		The port of the session to get
  * @return The session fetched, or NULL if it doesn't exist
  */
-struct session* session_get_by_addr(struct in_addr address, short port) {
+Player* session_get_by_addr(struct in_addr address, short port) {
 	int i;
 	
-	for (i = 0; i < session_slots; i++) {
-		if (sessions[i] != NULL && sessions[i]->address.s_addr == address.s_addr && sessions[i]->port == port) {
-			return sessions[i];
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && player->connection.ip.s_addr == address.s_addr && player->connection.port == port) {
+			return player;
 		}
 	}
 	
@@ -100,12 +114,30 @@ struct session* session_get_by_addr(struct in_addr address, short port) {
  * @param name		The name of the session to get
  * @return The session fetched, or NULL if it doesn't exist
  */
-struct session* session_get_by_name(char* name) {
+Player* session_get_by_name(char* name) {
 	int i;
 	
-	for (i = 0; i < session_slots; i++) {
-		if (sessions[i] != NULL && strcmp(sessions[i]->name, name) == 0) {
-			return sessions[i];
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && strcmp(player->name, name) == 0) {
+			return player;
+		}
+	}
+	
+	return NULL;
+}
+
+/** Fetches a session from the list of sessions
+ * @param uuid		The uuid of the session to get
+ * @return The session fetched, or NULL if it doesn't exist
+ */
+Player* session_get_by_uuid(char* uuid) {
+	int i;
+	
+	ll_foreach(connected_players, i) {
+		Player* player = ll_get(connected_players, i);
+		if (player != NULL && strcmp(player->uuid, uuid) == 0) {
+			return player;
 		}
 	}
 	

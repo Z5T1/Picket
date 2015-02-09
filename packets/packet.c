@@ -29,8 +29,8 @@ short get_packet_length(const u_char* packet) {
  */
 void process_packet(u_char* payload, int length, struct in_addr s_address, struct in_addr d_address, short s_port, short d_port) {
 	struct generic_packet packet;
-	struct session* ses;
-	struct session* ses_out;
+	Player* ses;
+	Player* ses_out;
 	
 	if (length == 0)
 		return;

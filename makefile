@@ -6,6 +6,7 @@ OBJECTS = \
 	handlers.o \
 	sessions.o \
 	libs/varint.o \
+	libs/zll.o \
 	packets/packet.o \
 	packets/generic_packet.o \
 	packets/connect_packet.o \

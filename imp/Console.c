@@ -14,7 +14,6 @@ void runCommand(char* command) {
 	
 	full_cmd = malloc(strlen(command) + strlen(picketScreen) + 48);
 	sprintf(full_cmd, "screen -p 0 -S %s -X stuff \"%s\"$(printf \\\\r)", picketScreen, command);
-	printf("%s\n", full_cmd);
 	system(full_cmd);
 	free(full_cmd);
 }

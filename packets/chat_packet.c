@@ -40,16 +40,15 @@ void create_chat_packet(struct chat_packet* packet, u_char* payload) {
 
 /** Processes a connect packet
  * @param packet	The packet to process
- * @param ses		The session sending this packet
+ * @param player	The player sending this packet
  */
-void process_chat_packet(struct chat_packet* packet, struct session* ses) {
+void process_chat_packet(struct chat_packet* packet, Player* player) {
 	PlayerChatEvent evt;
 	
-	printf("<%s> %s\n", ses->name, packet->message);
+	printf("<%s> %s\n", player->name, packet->message);
 	
+	memcpy(&evt.player, player, sizeof(Player));
 	evt.message = packet->message;
-	evt.player.ip = ses->address;
-	strcpy(evt.player.name, ses->name);
 	
 	chat_packet_call_handlers(&evt);
 	
@@ -59,13 +58,13 @@ void process_chat_packet(struct chat_packet* packet, struct session* ses) {
 /** Processes a generic packet as though it were a connect packet.
  * A convienience method for create_chat_packet(); process_chat_packet();
  * @param payload	The payload to process (as created by got_packet())
- * @param ses		The session sending this packet
+ * @param player	The player sending this packet
  */
-void process_chat_packet_from_payload(u_char* payload, struct session* ses) {
+void process_chat_packet_from_payload(u_char* payload, Player* player) {
 	struct chat_packet packet;
 	
 	create_chat_packet(&packet, payload);
-	process_chat_packet(&packet, ses);
+	process_chat_packet(&packet, player);
 }
 
 /** Adds a function to the list of handler functions

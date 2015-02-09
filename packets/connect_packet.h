@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <pcap.h>
 
-#include "../sessions.h"
+#include ".root/sessions.h"
 
 #include "api/event/PlayerConnectEvent.h"
 
@@ -14,7 +14,7 @@ struct connect_packet {
 	struct session* ses;	// The session issuing this packet
 	uint64_t length;		// Packet Length
 	uint64_t id;			// Packet ID
-	char uuid[40];			// The UUID for this login
+	char uuid[37];			// The UUID for this login
 	char name[17];			// The name for this login
 };
 
